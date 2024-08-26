@@ -22,12 +22,9 @@ jobs:
             });
             const approvedReviews = reviews.filter(review => review.state === 'APPROVED');
             const requiredApprovals = 1; // Number of required approvals before merging
-
-            if (approvedReviews.length >= requiredApprovals) {
-              return 'approved';
-            } else {
-              return 'not_approved';
-            }
+            return approvedReviews.length >= requiredApprovals ? 'approved' : 'not_approved';
+        outputs:
+          result: ${{ steps.check-approval.outputs.result }}
           
       - name: Merge PR if approved
         if: steps.check-approval.outputs.result == 'approved'
